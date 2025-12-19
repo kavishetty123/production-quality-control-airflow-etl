@@ -15,3 +15,4 @@ with DAG(
         task_id="run_full_etl",
         python_callable=run_etl
     )
+.
