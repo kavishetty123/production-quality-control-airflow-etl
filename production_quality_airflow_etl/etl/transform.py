@@ -35,3 +35,4 @@ def transform_data():
     merged = pd.merge(X_hourly, Y_hourly, on="date_time", how="inner")
     merged.to_csv("/tmp/merged.csv", index=False)
     print("Transformation complete: merged.csv created.")
+
