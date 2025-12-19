@@ -9,3 +9,4 @@ def extract_data():
     X.to_csv("/tmp/X_raw.csv", index=False)
     Y.to_csv("/tmp/Y_raw.csv", index=False)
     print("Extraction complete: X_raw.csv and Y_raw.csv created.")
+
