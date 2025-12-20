@@ -1,29 +1,24 @@
+import os
 import pandas as pd
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")
+TMP_DIR = "/tmp"
 
 def extract_data():
-    # Load the CSV files
-    X = pd.read_csv(f"/workspaces/production-quality-control-airflow-etl/production_quality_airflow_etl/data/data_X.csv")
-    Y = pd.read_csv(f"/workspaces/production-quality-control-airflow-etl/production_quality_airflow_etl/data/data_Y.csv")
+    X = pd.read_csv(os.path.join(DATA_DIR, "data_X.csv"))
+    Y = pd.read_csv(os.path.join(DATA_DIR, "data_Y.csv"))
 
-    # Save raw copies
-    X.to_csv("/tmp/X_raw.csv", index=False)
-    Y.to_csv("/tmp/Y_raw.csv", index=False)
+    
 
-    # Print basic info for X
-    print("X_raw.csv created.")
-    print("Shape of X:", X.shape)
-    print("Columns in X:", list(X.columns))
-    print("First 5 rows of X:")
-    print(X.head(), "\n")
+    X_path = os.path.join(TMP_DIR, "X_raw.csv")
+    Y_path = os.path.join(TMP_DIR, "Y_raw.csv")
 
-    # Print basic info for Y
-    print("Y_raw.csv created.")
-    print("Shape of Y:", Y.shape)
-    print("Columns in Y:", list(Y.columns))
-    print("First 5 rows of Y:")
-    print(Y.head(), "\n")
+    X.to_csv(X_path, index=False)
+    Y.to_csv(Y_path, index=False)
 
-    print("Extraction complete.")
-# ✅ Call the function
-extract_data()
+    return X_path, Y_path
+
+
+if __name__ == "__main__":
+    extract_data()
