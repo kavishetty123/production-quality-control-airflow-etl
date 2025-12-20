@@ -1,14 +1,20 @@
 import pandas as pd
+from sklearn.ensemble import IsolationForest
 import joblib
-from models.isolation_forest import build_isolation_forest
+import os
 
-def train_model(transformed_path, contamination=0.01):
-    X = pd.read_csv(transformed_path)
+INPUT_DIR = "etl"
+MODEL_DIR = "models"
+os.makedirs(MODEL_DIR, exist_ok=True)
 
-    model = build_isolation_forest(contamination=contamination)
-    model.fit(X)
+# Load transformed data
+X = pd.read_csv(f"{INPUT_DIR}/transformed_data.csv")
+features = X.drop(columns=["date_time"])
 
-    model_path = "/tmp/isolation_forest.pkl"
-    joblib.dump(model, model_path)
+# Train Isolation Forest
+model = IsolationForest(contamination=0.01, random_state=42)
+model.fit(features)
 
-    return model_path
+# Save the model
+joblib.dump(model, f"{MODEL_DIR}/isolation_forest.pkl")
+print("Isolation Forest trained and saved to models/isolation_forest.pkl")

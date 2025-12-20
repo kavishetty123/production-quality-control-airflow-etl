@@ -1,32 +1,32 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-import joblib
+import os
 
-def transform_data(X_path, Y_path):
-    X = pd.read_csv(X_path, parse_dates=["date_time"])
-    Y = pd.read_csv(Y_path, parse_dates=["date_time"])
+INPUT_DIR = "etl"    # read raw CSVs
+OUTPUT_DIR = "etl"   # save transformed CSVs
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # Resample X to hourly
-    X_hourly = (
-        X.set_index("date_time")
-         .resample("H")
-         .mean()
-         .reset_index()
-    )
+def transform_data():
+    # Load raw data
+    X = pd.read_csv(f"{INPUT_DIR}/X_raw.csv")
 
-    data = pd.merge(X_hourly, Y, on="date_time", how="inner")
+    # Select only feature columns (exclude date_time)
+    features = X.drop(columns=["date_time"])
 
-    features = data.drop(columns=["date_time", "quality"])
-
+    # Scale features
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(features)
 
-    joblib.dump(scaler, "/tmp/scaler.pkl")
+    # Convert back to DataFrame, keep column names
+    X_scaled_df = pd.DataFrame(X_scaled, columns=features.columns)
 
-    transformed_path = "/tmp/transformed_data.csv"
-    pd.DataFrame(
-        X_scaled,
-        columns=features.columns
-    ).to_csv(transformed_path, index=False)
+    # Optionally add date_time back for reference
+    X_scaled_df["date_time"] = X["date_time"]
 
-    return transformed_path
+    # Save transformed data inside repo
+    X_scaled_df.to_csv(f"{OUTPUT_DIR}/transformed_data.csv", index=False)
+
+    print(f"Transformation complete. File saved to {OUTPUT_DIR}/transformed_data.csv")
+
+if __name__ == "__main__":
+    transform_data()

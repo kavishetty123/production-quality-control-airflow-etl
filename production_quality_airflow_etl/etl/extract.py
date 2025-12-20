@@ -1,24 +1,22 @@
-import os
 import pandas as pd
+import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
-TMP_DIR = "/tmp"
+# Paths
+DATA_DIR = "data"          # folder with original CSVs
+OUTPUT_DIR = "etl"         # save processed CSVs here
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def extract_data():
-    X = pd.read_csv(os.path.join(DATA_DIR, "data_X.csv"))
-    Y = pd.read_csv(os.path.join(DATA_DIR, "data_Y.csv"))
+    # Load CSVs
+    X = pd.read_csv(f"{DATA_DIR}/data_X.csv")
+    Y = pd.read_csv(f"{DATA_DIR}/data_Y.csv")
 
-    
+    # Save raw copies inside repo
+    X.to_csv(f"{OUTPUT_DIR}/X_raw.csv", index=False)
+    Y.to_csv(f"{OUTPUT_DIR}/Y_raw.csv", index=False)
 
-    X_path = os.path.join(TMP_DIR, "X_raw.csv")
-    Y_path = os.path.join(TMP_DIR, "Y_raw.csv")
-
-    X.to_csv(X_path, index=False)
-    Y.to_csv(Y_path, index=False)
-
-    return X_path, Y_path
-
+    print(f"Extraction complete. Files saved to {OUTPUT_DIR}/")
 
 if __name__ == "__main__":
     extract_data()
