@@ -1,16 +1,11 @@
 import pandas as pd
-from sklearn.ensemble import IsolationForest
 import joblib
+from models.isolation_forest import build_isolation_forest
 
-def train_model(transformed_path):
+def train_model(transformed_path, contamination=0.01):
     X = pd.read_csv(transformed_path)
 
-    model = IsolationForest(
-        n_estimators=100,
-        contamination=0.01,
-        random_state=42
-    )
-
+    model = build_isolation_forest(contamination=contamination)
     model.fit(X)
 
     model_path = "/tmp/isolation_forest.pkl"

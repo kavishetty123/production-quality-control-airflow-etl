@@ -10,5 +10,4 @@ def detect_anomalies(transformed_path, model_path):
     output_path = "/tmp/anomaly_results.csv"
     X.to_csv(output_path, index=False)
 
-    print("Anomalies detected:", (X["anomaly"] == -1).sum())
     return output_path
