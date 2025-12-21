@@ -1,0 +1,26 @@
+dt = Open("/workspaces/production-quality-control-airflow-etl/production_quality_airflow_etl/etl/anomaly_results.csv");
+
+dt << New Column(
+	"Anomaly Color",
+	Character,
+	Formula(
+		If( :anomaly == -1,
+			"Anomaly",
+			"Normal"
+		)
+	)
+);
+
+Graph Builder(
+	Size( 900, 600 ),
+	Show Control Panel( 0 ),
+	Variables(
+		X( :date_time ),
+		Y( :T_data_1_1 ),
+		Color( :"Anomaly Color" )
+	),
+	Elements(
+		Line( X, Y, Legend( 5 ) ),
+		Points( X, Y, Legend( 6 ) )
+	)
+);

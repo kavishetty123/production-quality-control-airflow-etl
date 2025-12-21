@@ -11,5 +11,5 @@ def run_jsl_script(jsl_path: str):
     if not os.path.exists(jsl_path):
         raise FileNotFoundError(f"JSL file not found: {jsl_path}")
 
-    subprocess.Popen([JMP_PATH, jsl_path])
+    subprocess.Popen([JMP_PATH, jsl_path])  
     print("JSL script sent to JMP")
