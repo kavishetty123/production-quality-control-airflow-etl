@@ -1,3 +1,6 @@
 production_quality_airflow_etl/data/data_X.csv filter=lfs diff=lfs merge=lfs -text
 data_X.csv filter=lfs diff=lfs merge=lfs -text
 your-file-name.ext filter=lfs diff=lfs merge=lfs -text
+production_quality_airflow_etl/etl/*.csv filter=lfs diff=lfs merge=lfs -text
+production_quality_airflow_etl/*.csv filter=lfs diff=lfs merge=lfs -text
+output/*.csv filter=lfs diff=lfs merge=lfs -text
