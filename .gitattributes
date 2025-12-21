@@ -5,3 +5,4 @@ production_quality_airflow_etl/etl/*.csv filter=lfs diff=lfs merge=lfs -text
 production_quality_airflow_etl/*.csv filter=lfs diff=lfs merge=lfs -text
 output/*.csv filter=lfs diff=lfs merge=lfs -text
 production_quality_airflow_etl/output/transformed_data.csv filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
